@@ -50,8 +50,27 @@ public class BloomFiltree<K, V> implements SetMap<K, V> {
             throw new IllegalStateException("initialize must be called before calling getSet");
 
         Set<V> ret = new HashSet<>();
-        for (Map.Entry<V, BloomFilter<K>> entry : bloomFilters.entrySet()) {
-            if (entry.getValue().mightContain(key)) ret.add(entry.getKey());
+
+        // BFS
+        Queue<Integer> queue = new LinkedList<>();
+        queue.add(0);
+
+        while (!queue.isEmpty()) {
+            int i = queue.remove();
+            Map.Entry<V, BloomFilter<K>> e = tree.get(i);
+            if (e == null) break;
+
+            V val = e.getKey();
+            BloomFilter<K> bf = e.getValue();
+
+            if (bf.mightContain(key)) {
+                if (val != null) {
+                    ret.add(val);
+                } else {
+                    queue.add(2 * i + 1);
+                    queue.add(2 * i + 2);
+                }
+            }
         }
         return ret;
     }
@@ -89,7 +108,7 @@ public class BloomFiltree<K, V> implements SetMap<K, V> {
             }
 
             if (right == null) {
-                // if parent has only one child...
+                // if parent has only one child, copy the child to the parent
                 Map.Entry<V, BloomFilter<K>> par = new AbstractMap.SimpleEntry<>(null, left.getValue());
                 tree.add(i, par);
                 continue;
