@@ -4,5 +4,5 @@ pipeline:
     commands:
       - mvn verify
     when:
-      event:[push, pull_request]
-  
+      event: [push, pull_request]
+
