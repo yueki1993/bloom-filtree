@@ -86,11 +86,10 @@ public class BloomFiltree<K, V> implements SetMap<K, V> {
 
         int n = bloomFilters.size();
 
-        // allocate arrays of length (2n'-1 + (2n')) = 4n'-1,
-        // where n' is a number which is rounded up to the next power of two of n (e.g., n=1000 -> n'=1024),
-        // and 2n' is the size of sentinel leaf node for simplifying implementation.
+        // allocate arrays of length 2n'-1,
+        // where n' is a number which is rounded up to the next power of two of n (e.g., n=1000 -> n'=1024).
         int np = roundUpToNextPowerOfTwo(n);
-        tree = new ArrayList<>(4 * np - 1);
+        tree = new ArrayList<>(2 * np - 1);
 
         // put leaves to the tree
         Iterator<Map.Entry<V, BloomFilter<K>>> it = bloomFilters.entrySet().iterator();
