@@ -1,0 +1,8 @@
+pipeline:
+  maven-build:
+    image: maven
+    commands:
+      - mvn verify
+    when:
+      event:[push, pull_request]
+  
