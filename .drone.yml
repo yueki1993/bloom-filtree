@@ -5,4 +5,3 @@ pipeline:
       - mvn verify
     when:
       event:[push, pull_request]
-  
