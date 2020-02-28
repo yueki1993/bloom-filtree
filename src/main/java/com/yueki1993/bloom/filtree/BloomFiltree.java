@@ -88,7 +88,7 @@ public class BloomFiltree<K, V> implements SetMap<K, V> {
 
         // allocate arrays of length (2n'-1 + (2n')) = 4n'-1,
         // where n' is a number which is rounded up to the next power of two of n (e.g., n=1000 -> n'=1024),
-        // and 2n' is the size of sentinel leaf node for simplifying implementation..
+        // and 2n' is the size of sentinel leaf node for simplifying implementation.
         int np = roundUpToNextPowerOfTwo(n);
         tree = new ArrayList<>(4 * np - 1);
 
@@ -114,6 +114,7 @@ public class BloomFiltree<K, V> implements SetMap<K, V> {
                 continue;
             }
 
+            // if both childrean are non-null, take union of them and make it their parent
             BloomFilter<K> leftBf = left.getValue();
             BloomFilter<K> rightBf = right.getValue();
             BloomFilter<K> parBf = leftBf.copy();
