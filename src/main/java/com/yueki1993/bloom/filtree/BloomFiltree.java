@@ -58,7 +58,7 @@ public class BloomFiltree<K, V> implements SetMap<K, V> {
         while (!queue.isEmpty()) {
             int i = queue.remove();
             Map.Entry<V, BloomFilter<K>> e = tree.get(i);
-            if (e == null) break;
+            if (e == null) continue;
 
             V val = e.getKey();
             BloomFilter<K> bf = e.getValue();
